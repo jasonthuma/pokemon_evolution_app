@@ -1,0 +1,21 @@
+body {
+  background-color: #FAF9EF;
+  color: #312F2F;
+}
+
+body .underHeader {
+  margin-top: 86px;
+}
+
+.headerBar {
+  background-color: #B52E2C;
+  padding: 10px 0;
+}
+
+.headerBar #titleHeader {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffcb05;
+  -webkit-text-stroke: 3px #2a75bb;
+}
+/*# sourceMappingURL=main.css.map */

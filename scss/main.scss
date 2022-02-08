@@ -1,0 +1,26 @@
+$accent-color: #B52E2C;
+$light-color: #FAF9EF;
+$dark-color: #312F2F;
+$yellow: #ffcb05;
+$blue: #2a75bb;
+
+
+body {
+    background-color: $light-color;
+    color: $dark-color;
+    .underHeader {
+        margin-top: 86px;
+    }
+}
+
+.headerBar {
+    background-color: $accent-color;
+    padding: 10px 0;
+    #titleHeader {
+        font-size: 3rem;
+        font-weight: 800;
+        color: $yellow;
+        -webkit-text-stroke: 3px $blue;
+    }
+}
+
