@@ -7,6 +7,10 @@ body .underHeader {
   margin-top: 86px;
 }
 
+body .searchDiv {
+  margin-bottom: 20px;
+}
+
 .headerBar {
   background-color: #B52E2C;
   padding: 10px 0;
