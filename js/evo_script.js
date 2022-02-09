@@ -1,6 +1,14 @@
 var chain, pokeName1 = [], pokeName2 = [], pokeName3 = [];
-//plan is pokeArray = [name, type1, type2, trigger, lvl/item/time, extraTrigger]
 var pokeArray = [], poke1 = [], poke2 = [], poke3 = [];
+var userInput = $("#searchName");
+
+/*
+    This function takes a string representing the name of a pokemon and
+    uses it in a get request for the pokemon_species data from the pokeapi
+    If the name is invalid it will alert the user otherwise it will pass
+    the evolution_chain url to another function to get the evolution tree for
+    the requested pokemon
+*/
 function getPokemonSpeciesData(name) {
     fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`, {
         method: 'GET'})
@@ -9,27 +17,29 @@ function getPokemonSpeciesData(name) {
         getEvolutionChainData(data.evolution_chain.url);
     }).catch(() => {
         alert('Invalid name, try again');
-    })
-    
-    
+    })  
 }
+
+/*
+    This function takes in a string representing a specific url and sends a
+    get request to the pokeapi for evolution chain date. If it passes it will
+    then parse the data into several arrays and append the data to the page 
+    for the user to view
+*/
 function getEvolutionChainData(speciesURL) {
     fetch(speciesURL, {
         method: 'GET'})
     .then(checkError)
     .then(data => {
-        //console.log(data);
         chain = data.chain;
         console.log('Chain:', chain);
         poke1.push(capitalizeFirstLetter(chain.species.name));
-        //console.log('poke1:' , poke1);
         pokeArray.push(poke1);
 
         if(chain.evolves_to.length != 0) {
             for (let i = 0; i < chain.evolves_to.length; i++) {
                 poke2.push(capitalizeFirstLetter(chain.evolves_to[i].species.name));
             }
-            //console.log('poke2:',poke2);
             pokeArray.push(poke2);
         }
         if(chain.evolves_to.length == 2 && chain.evolves_to[0].evolves_to.length == 1 && chain.evolves_to[1].evolves_to.length == 1) {
@@ -40,8 +50,6 @@ function getEvolutionChainData(speciesURL) {
             for (let i = 0; i < chain.evolves_to[0].evolves_to.length; i++) {
                 poke3.push(capitalizeFirstLetter(chain.evolves_to[0].evolves_to[i].species.name));
             }
-            
-            //console.log('poke3:', poke3);
             pokeArray.push(poke3);
         }
         console.log(pokeArray);
@@ -49,27 +57,25 @@ function getEvolutionChainData(speciesURL) {
             $('.singleFirstEvo').append(`<p>${pokeArray[0][0]}</p>`);
         } else if (pokeArray.length == 2) {
             $('.doubleFirstEvo').append(`<p>${pokeArray[0][0]}</p>`);
-            switch(pokeArray[1].length) {
-                case 1:
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
-                case 2:
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
-                case 3:
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][2]}</p>`);
-                case 8:
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][2]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][3]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][4]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][5]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][6]}</p>`);
-                    $('.doubleSecondEvo').append(`<p>${pokeArray[1][7]}</p>`);
-            }
-            
+            if (pokeArray[1].length == 1) {
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
+            } else if (pokeArray[1].length == 2) {
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
+            } else if (pokeArray[1].length == 3) {
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][2]}</p>`);
+            } else if (pokeArray[1].length == 8) { //special case for Eevee
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][0]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][1]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][2]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][3]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][4]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][5]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][6]}</p>`);
+                $('.doubleSecondEvo').append(`<p>${pokeArray[1][7]}</p>`);
+            }   
         } else if (pokeArray.length == 3) {
             $('.tripleFirstEvo').append(`<p>${pokeArray[0][0]}</p>`);
             if (pokeArray[1].length == 1) {
@@ -88,18 +94,11 @@ function getEvolutionChainData(speciesURL) {
 
     })
 }
-// function getPokemonInfo(pokemon) {
-//     fetch(pokemon.url, {
-//         method: 'GET'})
-//     .then(checkError)
-//     .then(data => {
-//         console.log(data);
-//     })
-// }
-function getPokemonSprites() {
 
-}
-
+/*
+    Make sure the response from the api is in a good status
+    Throw a new error otherwise
+*/
 function checkError(response) {
     if (response.status >= 200 && response.status <= 299) {
         return response.json();
@@ -108,12 +107,21 @@ function checkError(response) {
     }
 }
 
+/*
+    Function to make the first letter in a string uppercase
+    Used for the data that gets displayed to the user
+*/
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/*
+    When search button is clicked:
+    *Reset all global variables to empty
+    *Remove any previously populated content from prior searches
+    *Trigger the search by calling the get function with the user data
+*/
 $('#searchBtn').click(() => {
-    let userInput = $('#searchName');
     let searchString = userInput.val().toLowerCase();
     pokeArray = [];
     poke1 = [];
@@ -127,3 +135,13 @@ $('#searchBtn').click(() => {
     $('.tripleThirdEvo').empty();
     getPokemonSpeciesData(searchString);
 });
+
+/*
+    Trigger the search if the enter is pressed when the input box is 
+    highlighted
+*/
+    userInput.keyup((event)=>{
+    if (event.keyCode === 13) {
+        $('#searchBtn').click();
+    }
+});   
