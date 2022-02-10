@@ -74,8 +74,13 @@ async function placePokemonOnPage(pokemonSpeciesData) {
     console.log(pokeArray);
     if (pokeArray.length == 1) {
         sprites1[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
+        console.log('sprites1:', sprites1);
         $('.singleFirstEvo').append(`<img src="${sprites1[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites1[0].name)}" width="125px">`);
         $('.singleFirstEvo').append(`<h5>${pokeArray[0][0]}</h5>`);
+        if (sprites1[0].types.length == 1) {
+            $('.singleFirstEvo').append(`<span class="${sprites1[0].types[0].type.name}">${capitalizeFirstLetter(sprites1[0].types[0].type.name)}</span>`)
+        }
+        
     } else if (pokeArray.length == 2) {
         sprites1[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
         $('.doubleFirstEvo').append(`<img src="${sprites1[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites1[0].name)}" width="125px">`);
@@ -203,3 +208,9 @@ $('#searchBtn').click(() => {
         $('#searchBtn').click();
     }
 });   
+
+/* to work on:
+    1)add special case for burmy to display wormadam forms
+    2)layout in mobile for wurmple, poliwag, etc.
+    3)arrows from one evolution to the next
+*/
