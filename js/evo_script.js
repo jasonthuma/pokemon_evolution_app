@@ -40,14 +40,14 @@ async function getPokemonData(pokemonName) {
 
 /*
     Function to parse the returned evolution data into multiple arrays.
-    There is an array for names, sprite images, info and evolution triggers.
+    There is an array for names, sprite images, type(s) and evolution triggers.
     This data is then parsed further and displayed on the page in certain
     places depending on the number of evolutions.
 */
 async function placePokemonOnPage(pokemonSpeciesData) {
     let chain, pokeName1 = [], pokeName2 = [], pokeName3 = [];
-    let sprites1 = [], sprites2 = [], sprites3 = [[],[],[]];
-    let pokeArray = [], pokeInfo1 = [], pokeInfo2 = [], pokeInfo3 = [];
+    let pokeInfo = [[],[],[]];
+    let pokeArray = [];
     let triggers12 = [], triggers23 = [];
     let evolveData = await getEvolutionChainData(pokemonSpeciesData.evolution_chain.url);
     chain = evolveData.chain;
@@ -73,92 +73,228 @@ async function placePokemonOnPage(pokemonSpeciesData) {
     }
     console.log(pokeArray);
     if (pokeArray.length == 1) {
-        sprites1[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
-        console.log('sprites1:', sprites1);
-        $('.singleFirstEvo').append(`<img src="${sprites1[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites1[0].name)}" width="125px">`);
+        pokeInfo[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
+        $('.singleFirstEvo').append(`<img src="${pokeInfo[0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[0].name)}" width="125px">`);
         $('.singleFirstEvo').append(`<h5>${pokeArray[0][0]}</h5>`);
-        if (sprites1[0].types.length == 1) {
-            $('.singleFirstEvo').append(`<span class="${sprites1[0].types[0].type.name}">${capitalizeFirstLetter(sprites1[0].types[0].type.name)}</span>`)
+        if (pokeInfo[0].types.length == 1) {
+            $('.singleFirstEvo').append(`<span class="${pokeInfo[0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[0].type.name)}</span>`)
+        } else {
+            $('.singleFirstEvo').append(`<span class="${pokeInfo[0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[0].type.name)}</span>`)
+            $('.singleFirstEvo').append(`<span class="${pokeInfo[0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[1].type.name)}</span>`)
         }
         
     } else if (pokeArray.length == 2) {
-        sprites1[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
-        $('.doubleFirstEvo').append(`<img src="${sprites1[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites1[0].name)}" width="125px">`);
+        pokeInfo[0] = await getPokemonData(pokeArray[0][0].toLowerCase());
+        $('.doubleFirstEvo').append(`<img src="${pokeInfo[0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[0].name)}" width="125px">`);
         $('.doubleFirstEvo').append(`<h5>${pokeArray[0][0]}</h5>`);
+        if (pokeInfo[0].types.length == 1) {
+            $('.doubleFirstEvo').append(`<span class="${pokeInfo[0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[0].type.name)}</span>`)
+        } else {
+            $('.doubleFirstEvo').append(`<span class="${pokeInfo[0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[0].type.name)}</span>`)
+            $('.doubleFirstEvo').append(`<span class="${pokeInfo[0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[0].types[1].type.name)}</span>`)
+        }
         if (pokeArray[1].length == 1) {
-            sprites2[0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span>`)
+            }
         } else if (pokeArray[1].length == 2) {
-            sprites2[0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
-            sprites2[1] = await getPokemonData(pokeArray[1][1].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[1].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[1].name)}" width="125px">`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][1] = await getPokemonData(pokeArray[1][1].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][1].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][1].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][1]}</h5>`);
+            if (pokeInfo[1][1].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[1].type.name)}</span>`)
+            }
+            console.log('pokeInfo:', pokeInfo);
         } else if (pokeArray[1].length == 3) {
-            sprites2[0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
-            sprites2[1] = await getPokemonData(pokeArray[1][1].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[1].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[1].name)}" width="125px">`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][1] = await getPokemonData(pokeArray[1][1].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][1].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][1].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][1]}</h5>`);
-            sprites2[2] = await getPokemonData(pokeArray[1][2].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[2].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[2].name)}" width="125px">`);
+            if (pokeInfo[1][1].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][2] = await getPokemonData(pokeArray[1][2].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][2].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][2].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][2]}</h5>`);
+            if (pokeInfo[1][2].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[0].type.name)}</span>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[1].type.name)}</span>`)
+            }
         } else if (pokeArray[1].length == 8) { //special case for Eevee
-            sprites2[0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
-            sprites2[1] = await getPokemonData(pokeArray[1][1].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[1].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[1].name)}" width="125px">`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][1] = await getPokemonData(pokeArray[1][1].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][1].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][1].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][1]}</h5>`);
-            sprites2[2] = await getPokemonData(pokeArray[1][2].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[2].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[2].name)}" width="125px">`);
+            if (pokeInfo[1][1].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][1].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][2] = await getPokemonData(pokeArray[1][2].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][2].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][2].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][2]}</h5>`);
-            sprites2[3] = await getPokemonData(pokeArray[1][3].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[3].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[3].name)}" width="125px">`);
+            if (pokeInfo[1][2].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][2].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][2].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][3] = await getPokemonData(pokeArray[1][3].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][3].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][3].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][3]}</h5>`);
-            sprites2[4] = await getPokemonData(pokeArray[1][4].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[4].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[4].name)}" width="125px">`);
+            if (pokeInfo[1][3].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][3].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][3].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][3].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][3].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][3].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][3].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][4] = await getPokemonData(pokeArray[1][4].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][4].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][4].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][4]}</h5>`);
-            sprites2[5] = await getPokemonData(pokeArray[1][5].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[5].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[5].name)}" width="125px">`);
+            if (pokeInfo[1][4].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][4].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][4].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][4].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][4].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][4].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][4].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][5] = await getPokemonData(pokeArray[1][5].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][5].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][5].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][5]}</h5>`);
-            sprites2[6] = await getPokemonData(pokeArray[1][6].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[6].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[6].name)}" width="125px">`);
+            if (pokeInfo[1][5].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][5].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][5].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][5].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][5].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][5].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][5].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][6] = await getPokemonData(pokeArray[1][6].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][6].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][6].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][6]}</h5>`);
-            sprites2[7] = await getPokemonData(pokeArray[1][7].toLowerCase());
-            $('.doubleSecondEvo').append(`<img src="${sprites2[7].sprites.front_default}" alt="${capitalizeFirstLetter(sprites2[7].name)}" width="125px">`);
+            if (pokeInfo[1][6].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][6].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][6].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][6].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][6].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][6].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][6].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][7] = await getPokemonData(pokeArray[1][7].toLowerCase());
+            $('.doubleSecondEvo').append(`<img src="${pokeInfo[1][7].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][7].name)}" width="125px">`);
             $('.doubleSecondEvo').append(`<h5>${pokeArray[1][7]}</h5>`);
+            if (pokeInfo[1][7].types.length == 1) {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][7].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][7].types[0].type.name)}</span><br>`)
+            } else {
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][7].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][7].types[0].type.name)}</span>`)
+                $('.doubleSecondEvo').append(`<span class="${pokeInfo[1][7].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][7].types[1].type.name)}</span><br>`)
+            }
         }   
     } else if (pokeArray.length == 3) {
-        sprites3[0][0] = await getPokemonData(pokeArray[0][0].toLowerCase());
-        $('.tripleFirstEvo').append(`<img src="${sprites3[0][0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[0][0].name)}" width="125px">`);
+        pokeInfo[0][0] = await getPokemonData(pokeArray[0][0].toLowerCase());
+        console.log(pokeInfo);
+        $('.tripleFirstEvo').append(`<img src="${pokeInfo[0][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[0][0].name)}" width="125px">`);
         $('.tripleFirstEvo').append(`<h5>${pokeArray[0][0]}</h5>`);
+        if (pokeInfo[0][0].types.length == 1) {
+            $('.tripleFirstEvo').append(`<span class="${pokeInfo[0][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0][0].types[0].type.name)}</span>`)
+        } else {
+            $('.tripleFirstEvo').append(`<span class="${pokeInfo[0][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[0][0].types[0].type.name)}</span>`)
+            $('.tripleFirstEvo').append(`<span class="${pokeInfo[0][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[0][0].types[1].type.name)}</span>`)
+        }
         if (pokeArray[1].length == 1) {
-            sprites3[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.tripleSecondEvo').append(`<img src="${sprites3[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[1][0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.tripleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.tripleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+            } else {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span>`)
+            }
         } else if (pokeArray[1].length == 2) {
-            sprites3[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
-            $('.tripleSecondEvo').append(`<img src="${sprites3[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[1][0].name)}" width="125px">`);
+            pokeInfo[1][0] = await getPokemonData(pokeArray[1][0].toLowerCase());
+            $('.tripleSecondEvo').append(`<img src="${pokeInfo[1][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][0].name)}" width="125px">`);
             $('.tripleSecondEvo').append(`<h5>${pokeArray[1][0]}</h5>`);
-            sprites3[1][1] = await getPokemonData(pokeArray[1][1].toLowerCase());
-            $('.tripleSecondEvo').append(`<img src="${sprites3[1][1].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[1][1].name)}" width="125px">`);
+            if (pokeInfo[1][0].types.length == 1) {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span><br>`)
+            } else {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[0].type.name)}</span>`)
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][0].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[1][1] = await getPokemonData(pokeArray[1][1].toLowerCase());
+            $('.tripleSecondEvo').append(`<img src="${pokeInfo[1][1].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[1][1].name)}" width="125px">`);
             $('.tripleSecondEvo').append(`<h5>${pokeArray[1][1]}</h5>`);
+            if (pokeInfo[1][1].types.length == 1) {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span><br>`)
+            } else {
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[0].type.name)}</span>`)
+                $('.tripleSecondEvo').append(`<span class="${pokeInfo[1][1].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[1][1].types[1].type.name)}</span><br>`)
+            }
         }
         if (pokeArray[2].length == 1) {
-            sprites3[2][0] = await getPokemonData(pokeArray[2][0].toLowerCase());
-            $('.tripleThirdEvo').append(`<img src="${sprites3[2][0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[2][0].name)}" width="125px">`);
+            pokeInfo[2][0] = await getPokemonData(pokeArray[2][0].toLowerCase());
+            $('.tripleThirdEvo').append(`<img src="${pokeInfo[2][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[2][0].name)}" width="125px">`);
             $('.tripleThirdEvo').append(`<h5>${pokeArray[2][0]}</h5>`);
+            if (pokeInfo[2][0].types.length == 1) {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[0].type.name)}</span>`)
+            } else {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[0].type.name)}</span>`)
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[1].type.name)}</span>`)
+            }
         } else if (pokeArray[2].length == 2) {
-            sprites3[2][0] = await getPokemonData(pokeArray[2][0].toLowerCase());
-            $('.tripleThirdEvo').append(`<img src="${sprites3[2][0].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[2][0].name)}" width="125px">`);
+            pokeInfo[2][0] = await getPokemonData(pokeArray[2][0].toLowerCase());
+            $('.tripleThirdEvo').append(`<img src="${pokeInfo[2][0].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[2][0].name)}" width="125px">`);
             $('.tripleThirdEvo').append(`<h5>${pokeArray[2][0]}</h5>`);
-            sprites3[2][1] = await getPokemonData(pokeArray[2][1].toLowerCase());
-            $('.tripleThirdEvo').append(`<img src="${sprites3[2][1].sprites.front_default}" alt="${capitalizeFirstLetter(sprites3[2][1].name)}" width="125px">`);
+            if (pokeInfo[2][0].types.length == 1) {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[0].type.name)}</span><br>`)
+            } else {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[0].type.name)}</span>`)
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][0].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[2][0].types[1].type.name)}</span><br>`)
+            }
+            pokeInfo[2][1] = await getPokemonData(pokeArray[2][1].toLowerCase());
+            $('.tripleThirdEvo').append(`<img src="${pokeInfo[2][1].sprites.front_default}" alt="${capitalizeFirstLetter(pokeInfo[2][1].name)}" width="125px">`);
             $('.tripleThirdEvo').append(`<h5>${pokeArray[2][1]}</h5>`);
+            if (pokeInfo[2][1].types.length == 1) {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][1].types[0].type.name)}</span>`)
+            } else {
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][1].types[0].type.name}">${capitalizeFirstLetter(pokeInfo[2][1].types[0].type.name)}</span>`)
+                $('.tripleThirdEvo').append(`<span class="${pokeInfo[2][1].types[1].type.name}">${capitalizeFirstLetter(pokeInfo[2][1].types[1].type.name)}</span>`)
+            }
         }
     }
 }

@@ -22,4 +22,94 @@ body .searchDiv {
   color: #ffcb05;
   -webkit-text-stroke: 3px #2a75bb;
 }
+
+span.normal {
+  color: #A8A77A;
+  margin: 0 5px;
+}
+
+span.fire {
+  color: #EE8130;
+  margin: 0 5px;
+}
+
+span.water {
+  color: #6390F0;
+  margin: 0 5px;
+}
+
+span.grass {
+  color: #7AC74C;
+  margin: 0 5px;
+}
+
+span.electric {
+  color: #F7D02C;
+  margin: 0 5px;
+}
+
+span.ice {
+  color: #96D9D6;
+  margin: 0 5px;
+}
+
+span.fighting {
+  color: #C22E28;
+  margin: 0 5px;
+}
+
+span.poison {
+  color: #A33EA1;
+  margin: 0 5px;
+}
+
+span.ground {
+  color: #E2BF65;
+  margin: 0 5px;
+}
+
+span.flying {
+  color: #A98FF3;
+  margin: 0 5px;
+}
+
+span.psychic {
+  color: #F95587;
+  margin: 0 5px;
+}
+
+span.bug {
+  color: #A6B91A;
+  margin: 0 5px;
+}
+
+span.rock {
+  color: #B6A136;
+  margin: 0 5px;
+}
+
+span.ghost {
+  color: #735797;
+  margin: 0 5px;
+}
+
+span.dragon {
+  color: #6F35FC;
+  margin: 0 5px;
+}
+
+span.dark {
+  color: #705746;
+  margin: 0 5px;
+}
+
+span.steel {
+  color: #B7B7CE;
+  margin: 0 5px;
+}
+
+span.fairy {
+  color: #D685AD;
+  margin: 0 5px;
+}
 /*# sourceMappingURL=main.css.map */

@@ -1,8 +1,4 @@
-$accent-color: #B52E2C;
-$light-color: #FAF9EF;
-$dark-color: #312F2F;
-$yellow: #ffcb05;
-$blue: #2a75bb;
+@import './variables';
 
 
 body {
@@ -27,3 +23,75 @@ body {
     }
 }
 
+span.normal {
+    color: $normal;
+    margin: 0 5px;
+}
+span.fire {
+    color: $fire;
+    margin: 0 5px;
+}
+span.water {
+    color: $water;
+    margin: 0 5px;
+}
+span.grass {
+    color: $grass;
+    margin: 0 5px;
+}
+span.electric {
+    color: $electric;
+    margin: 0 5px;
+}
+span.ice {
+    color: $ice;
+    margin: 0 5px;
+}
+span.fighting {
+    color: $fighting;
+    margin: 0 5px;
+}
+span.poison {
+    color: $poison;
+    margin: 0 5px;
+}
+span.ground {
+    color: $ground;
+    margin: 0 5px;
+}
+span.flying {
+    color: $flying;
+    margin: 0 5px;
+}
+span.psychic {
+    color: $psychic;
+    margin: 0 5px;
+}
+span.bug {
+    color: $bug;
+    margin: 0 5px;
+}
+span.rock {
+    color: $rock;
+    margin: 0 5px;
+}
+span.ghost {
+    color: $ghost;
+    margin: 0 5px;
+}
+span.dragon {
+    color: $dragon;
+    margin: 0 5px;
+}
+span.dark {
+    color: $dark;
+    margin: 0 5px;
+}
+span.steel {
+    color: $steel;
+    margin: 0 5px;
+}
+span.fairy {
+    color: $fairy;
+    margin: 0 5px;
+}
