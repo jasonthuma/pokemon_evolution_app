@@ -4,7 +4,8 @@ body {
 }
 
 body .underHeader {
-  margin-top: 86px;
+  margin-top: 124px;
+  padding: 10px;
 }
 
 body .searchDiv {
@@ -111,5 +112,11 @@ span.steel {
 span.fairy {
   color: #D685AD;
   margin: 0 5px;
+}
+
+@media (min-width: 768px) {
+  body .underHeader {
+    margin-top: 86px;
+  }
 }
 /*# sourceMappingURL=main.css.map */

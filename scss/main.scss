@@ -1,11 +1,26 @@
 @import './variables';
 
+@function breakPoint($breakpoint) {
+    @return map-get($breakpoints, $breakpoint );
+}
+
+@mixin respond-above($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+        $value: map-get($breakpoints, $breakpoint);
+        @media (min-width: $value) {
+            @content;
+        }
+    } @else {
+        @warn 'Invalid breakpoint: #{$breakpoint}.';
+    }
+}
 
 body {
     background-color: $light-color;
     color: $dark-color;
     .underHeader {
-        margin-top: 86px;
+        margin-top: 124px;
+        padding: 10px;
     }
     .searchDiv {
         margin-bottom: 20px;
@@ -94,4 +109,12 @@ span.steel {
 span.fairy {
     color: $fairy;
     margin: 0 5px;
+}
+
+@include respond-above(sm) {
+    body {
+        .underHeader {
+            margin-top: 86px;
+        }
+    }   
 }
