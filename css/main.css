@@ -4,12 +4,16 @@ body {
 }
 
 body .underHeader {
-  margin-top: 124px;
+  margin-top: 125px;
   padding: 10px;
 }
 
 body .searchDiv {
   margin-bottom: 20px;
+}
+
+body h5 {
+  margin-bottom: 0;
 }
 
 .headerBar {
@@ -22,6 +26,10 @@ body .searchDiv {
   font-weight: 800;
   color: #ffcb05;
   -webkit-text-stroke: 3px #2a75bb;
+}
+
+.col:empty {
+  display: none;
 }
 
 span.normal {

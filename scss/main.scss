@@ -19,12 +19,16 @@ body {
     background-color: $light-color;
     color: $dark-color;
     .underHeader {
-        margin-top: 124px;
+        margin-top: 125px;
         padding: 10px;
     }
     .searchDiv {
         margin-bottom: 20px;
     }
+    h5 {
+        margin-bottom: 0;
+    }
+    
 }
 
 .headerBar {
@@ -36,6 +40,10 @@ body {
         color: $yellow;
         -webkit-text-stroke: 3px $blue;
     }
+}
+
+.col:empty {
+    display: none;
 }
 
 span.normal {
@@ -116,5 +124,6 @@ span.fairy {
         .underHeader {
             margin-top: 86px;
         }
-    }   
+    }
 }
+
